@@ -317,21 +317,22 @@ Result rfim_1d(const vector<double>& h,const vector<double>& J) {
 //                      EN AVANT SIMONE
 // *********************************************************************
 int main(int na,char*para[]) {
-  uint seed = 5111954;
-  mt19937_64 rng(seed);  // graine
-  uniform_real_distribution<double> disth(-1.0, 1.0);
-  uniform_real_distribution<double> distJ(-0, 1.0);
-
   unsigned int L;
   vector<double> hs,Js;
-  if (na==2) {
+  if (na==3) {
+    unsigned int seed;
     sscanf(para[1],"%u",&L);
+    sscanf(para[2],"%u",&seed);
+    mt19937_64 rng(seed);  // graine
+    uniform_real_distribution<double> disth(-1.0, 1.0);
+    uniform_real_distribution<double> distJ(-0, 1.0);
     hs.resize(L);
     Js.resize(L);
     for (uint i=0;i<L;i++) {
       hs[i] = disth(rng);
       Js[i] = distJ(rng);
     }
+    Js[L-1] = 0;
   } else {
     FILE *ft=fopen("dataTest","r");
     for(;;) {
@@ -358,9 +359,11 @@ int main(int na,char*para[]) {
   
   Result res= rfim_1d(hs,Js);
   printf("E0= %lf\n",res.E0);
-  for (uint i=0;i<L;i++)
-    printf("%d ",res.spins[i]);
-  printf("\n");
+  if (L<=10) {
+    for (uint i=0;i<L;i++)
+      printf("%d ",res.spins[i]);
+    printf("\n");
+  }
   return 0;
 }  // FIN
 // *******************************************************************
