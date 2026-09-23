@@ -12,6 +12,7 @@ from sys import exit,argv
 from os import popen,system
 sys.path.append("/home/dauriac/lib")
 def w(x):sys.stdout.writelines(x)
+import numpy as np
 
 import jc2 as jc
 def filterDir(x,t):
@@ -39,20 +40,19 @@ for line in lines:
 if len(Correls)==0:
     print(f"No data survive {L=} {H=}")
     exit(1)
-import numpy as np
 Cs = np.array(list(map(float,Correls)))
 mi = Cs.min()
 ma = Cs.max()
-histo = np.zeros(nBox)
-for x in Cs:
-    k = max(0,min(nBox-1,int(nBox*(x-mi)/(ma-mi))))
-    # print(f"{x=} {k=}")
-    histo[k] += 1
-Delta = (ma-mi)/nBox
-for i in range(nBox):
-    xi = mi+ (i+0.5)*Delta
-    print(f"{xi} {histo[i]}")
-CorrelsArr= np.array(list(map(float,Correls)))
-mean = np.mean(CorrelsArr)
-stdErr = np.std(CorrelsArr,ddof=1)
-print(f"# {mean=} {stdErr=}")
+if nBox>1:
+    histo = np.zeros(nBox)
+    for x in Cs:
+        k = max(0,min(nBox-1,int(nBox*(x-mi)/(ma-mi))))
+        # print(f"{x=} {k=}")
+        histo[k] += 1
+    Delta = (ma-mi)/nBox
+    for i in range(nBox):
+        xi = mi+ (i+0.5)*Delta
+        print(f"{xi} {histo[i]}")
+mean = np.mean(Cs)
+meanOfSquare = np.mean(Cs*Cs)
+print(f"# {L=} {H=} size={Cs.size} <C>={float(mean)} <C*C>={meanOfSquare}")
