@@ -28,6 +28,7 @@ int main(int na,char*para[]) {
     }
     Js[L-1] = 0;
   } else {
+    printf("Reading data from dataTest (instead you can give L seed on the cli)\n"); 
     FILE *ft=fopen("dataTest","r");
     for(;;) {
       char line[128];
