@@ -111,6 +111,7 @@ void analyse(const Result &res,Properties &prop) {
   prop.Correl = C;
 } // FIN void analyse(const Results &res,const Properties &prop) 
 // ****************************************************************
+
 void helper() {
   printf("\n");
   printf("\t\tTrouve le GS d'un RFIM 1d\n");
@@ -136,6 +137,8 @@ int main(int na,char*para[]) {
   double H = 10;
   unsigned int per = 0;
   char fileName[256] = "";
+  unsigned int outFullDistrib = 0;
+  unsigned int alt = 0;
   for (int i=1;i<=na;i++)
     {
       char *st,noml[255],ok,j;
@@ -159,6 +162,8 @@ int main(int na,char*para[]) {
 	  _QU(nCalls,"%u"," (nombre de samples générés)");
 	  _QU(per,"%u"," (periodique ou non");
 	  _QU(H,"%lf"," (distibution des champs = [-H,H])");
+	  _QU(alt,"%u"," (an alternative algo to check)");
+	  _QU(outFullDistrib,"%u"," (sort sur stdout tous les valeurs de C)");
 	  _QUS(fileName,"%s"," (read data in filename, all aother parameters except verbose not considered)");
 	}
       if (!ok) 
@@ -202,13 +207,41 @@ int main(int na,char*para[]) {
     seed = rng(); // pour le prochain appel
   } // fin loop samples
   // here one plays with the results
-  printf("\nL= %u H= %lf\n",L,H);
+  printf("\n# L= %u H= %lf\n",L,H);
   Stat s = anaVect(lesE);
-  printf("E: <>=%lf <||>=%lf <**2>=%lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  printf("# E: <>=%lf <||>=%lf <**2>=%lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   s = anaVect(lesM);
-  printf("M: <>=%lf <||>=%lf <**2>=%lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  printf("# M: <>=%lf <||>=%lf <**2>=%lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   s = anaVect(lesC);
-  printf("C: <>=%lf <||>=%lf <**2>=%lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  printf("# C: <>=%lf <||>=%lf <**2>=%lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  if (outFullDistrib) {
+    vector<int> CenInt(lesC.size());
+    for (uint i=0;i<lesC.size();++i)
+      CenInt[i] = (int)round(lesC[i]*L);
+    if (alt) {
+      map<int, int> occurrences;
+      for (int x : CenInt)
+	++occurrences[x];
+      //    for(auto x : CenInt)      printf("%d\n",x);
+      for (const auto& [valeur, nombre] : occurrences)
+	printf("%d %d\n",valeur,nombre);
+    } else {
+      int mi = CenInt[0],ma = CenInt[0];
+      for (uint i=0;i<CenInt.size();i++) {
+	if (CenInt[i] < mi)
+	  mi = CenInt[i];
+	if (CenInt[i] > ma)
+	  ma = CenInt[i];
+      }
+      int nbVal = ma-mi+1;
+      vector<unsigned int> occur(nbVal,0);
+      for (uint i=0;i<CenInt.size();i++)
+	occur[CenInt[i]-mi]++;
+      for (int i=0;i<nbVal;i++)
+	if (occur[i]>0)
+	  printf("%d %d\n",i+mi,occur[i]);
+    }
+  }
   return 0;
 }  // FIN
 // *******************************************************************
