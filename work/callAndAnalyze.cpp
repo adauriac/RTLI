@@ -135,10 +135,10 @@ int main(int na,char*para[]) {
   unsigned int seed = 51154;
   unsigned nCalls = 1;
   double H = 10;
-  unsigned int per = 0;
+  unsigned int per = 1;
   char fileName[256] = "";
   unsigned int outFullDistrib = 0;
-  unsigned int alt = 0;
+  unsigned int outhJforcomparisonwith_byEnum=0;
   for (int i=1;i<=na;i++)
     {
       char *st,noml[255],ok,j;
@@ -156,14 +156,14 @@ int main(int na,char*para[]) {
 	      printf("usage (%s):\n",st);
 	    }
 	  // METTRE ICI LES DIFFERNTES VALEURS DE LA LIGNE DE COMMANDE
-	  _QU(verbose,"%d"," (niveau de blabla)");
+	  _QU(verbose,"%d"," (0:only the 3 averages;1: the 3 averages and the J_i and h_i ans spins_i for the first sites)");
 	  _QU(L,"%u"," (Taille chaine)");
 	  _QU(seed,"%u"," (amorceur rnd)");
 	  _QU(nCalls,"%u"," (nombre de samples générés)");
 	  _QU(per,"%u"," (periodique ou non");
 	  _QU(H,"%lf"," (distibution des champs = [-H,H])");
-	  _QU(alt,"%u"," (an alternative algo to check)");
-	  _QU(outFullDistrib,"%u"," (sort sur stdout tous les valeurs de C)");
+	  _QU(outFullDistrib,"%u"," output ALL sample average correlations");
+	  _QU(outhJforcomparisonwith_byEnum,"%u"," create the file TMPHJ for comparison with byEnum.py for check");
 	  _QUS(fileName,"%s"," (read data in filename, all aother parameters except verbose not considered)");
 	}
       if (!ok) 
@@ -172,6 +172,10 @@ int main(int na,char*para[]) {
           exit(0);
         }
     }
+  if ( outhJforcomparisonwith_byEnum) {
+    if ((nCalls>1) || (L>16))
+      _STOP("not a good idea outhJforcomparisonwith_byEnum=1 and nCalls>1 and L>16 !\n");
+  }
   vector<double> hs(L),Js(L);
   if (fileName[0]!=0) {
     readFromFile(fileName,hs,Js);
@@ -180,6 +184,10 @@ int main(int na,char*para[]) {
   random_device rd;
   if (seed==0)
     seed= rd();
+  if (1) {
+    printf("# seed= %u\n",seed);
+    _IMPRIM_PARAM(stdout);
+  }
   mt19937_64 rng; 
   uniform_real_distribution<double> disth(-H, H);
   uniform_real_distribution<double> distJ(0, 1.0);
@@ -194,13 +202,19 @@ int main(int na,char*para[]) {
       if (!per)
 	Js[Js.size()-1] = 0.;
     }
+    if (outhJforcomparisonwith_byEnum) {
+      FILE *ft;
+      _OUVREFILE("TMPHJ",ft,"w");
+      for(uint i=0;i<L;i++)
+	fprintf(ft,"%lf %lf\n",hs[i],Js[i]);
+      fclose(ft);
+      printf("# TMPHJ fermee\n");
+    }
     Result res= rfim_1d(hs,Js);
     if (verbose)
       out(hs,Js,res);
     Properties prop;
     analyse(res,prop);
-    // fprintf(stdout,"L= %u H= %lf E= %lf M= %lf C= %lf seed= %u\n",L,H,prop.E,prop.M,prop.Correl,seed);
-    // fflush(stdout);
     lesE.push_back(prop.E);
     lesM.push_back(prop.M);
     lesC.push_back(prop.Correl);
@@ -215,32 +229,12 @@ int main(int na,char*para[]) {
   s = anaVect(lesC);
   printf("# C: <>=%lf <||>=%lf <**2>=%lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   if (outFullDistrib) {
-    vector<int> CenInt(lesC.size());
-    for (uint i=0;i<lesC.size();++i)
-      CenInt[i] = (int)round(lesC[i]*L);
-    if (alt) {
-      map<int, int> occurrences;
-      for (int x : CenInt)
-	++occurrences[x];
-      //    for(auto x : CenInt)      printf("%d\n",x);
-      for (const auto& [valeur, nombre] : occurrences)
-	printf("%d %d\n",valeur,nombre);
-    } else {
-      int mi = CenInt[0],ma = CenInt[0];
-      for (uint i=0;i<CenInt.size();i++) {
-	if (CenInt[i] < mi)
-	  mi = CenInt[i];
-	if (CenInt[i] > ma)
-	  ma = CenInt[i];
-      }
-      int nbVal = ma-mi+1;
-      vector<unsigned int> occur(nbVal,0);
-      for (uint i=0;i<CenInt.size();i++)
-	occur[CenInt[i]-mi]++;
-      for (int i=0;i<nbVal;i++)
-	if (occur[i]>0)
-	  printf("%d %d\n",i+mi,occur[i]);
-    }
+    map<double, int> occurrences;
+    for(const double val : lesC)
+      ++occurrences[val];
+    printf("# C   nbOccurencesC\n");
+    for (const auto& [valeur, nombre] : occurrences)
+      printf("%lf %d\n",valeur,nombre);
   }
   return 0;
 }  // FIN
