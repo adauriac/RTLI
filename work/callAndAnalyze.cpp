@@ -160,7 +160,7 @@ int main(int na,char*para[]) {
 	  _QU(L,"%u"," (Taille chaine)");
 	  _QU(seed,"%u"," (amorceur rnd)");
 	  _QU(nCalls,"%u"," (nombre de samples générés)");
-	  _QU(per,"%u"," (periodique ou non");
+	  _QU(per,"%u"," (periodic or open BC)");
 	  _QU(H,"%lf"," (distibution des champs = [-H,H])");
 	  _QU(outFullDistrib,"%u"," output ALL sample average correlations");
 	  _QU(outhJforcomparisonwith_byEnum,"%u"," create the file TMPHJ for comparison with byEnum.py for check");
