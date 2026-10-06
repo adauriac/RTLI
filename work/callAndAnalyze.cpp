@@ -161,7 +161,7 @@ int main(int na,char*para[]) {
 	  _QU(seed,"%u"," (amorceur rnd)");
 	  _QU(nCalls,"%u"," (nombre de samples générés)");
 	  _QU(per,"%u"," (periodic or open BC)");
-	  _QU(H,"%lf"," (distibution des champs = [-H,H])");
+	  _QU(H,"%lf"," (distibution des champs = [-H/2,H/2])");
 	  _QU(outFullDistrib,"%u"," output ALL sample average correlations");
 	  _QU(outhJforcomparisonwith_byEnum,"%u"," create the file TMPHJ for comparison with byEnum.py for check");
 	  _QUS(fileName,"%s"," (read data in filename, all aother parameters except verbose not considered)");
@@ -189,7 +189,7 @@ int main(int na,char*para[]) {
     _IMPRIM_PARAM(stdout);
   }
   mt19937_64 rng; 
-  uniform_real_distribution<double> disth(-H, H);
+  uniform_real_distribution<double> disth(-H*0.5, H*0.5);
   uniform_real_distribution<double> distJ(0, 1.0);
   vector<double> lesE,lesM,lesC;
   for(unsigned int k=0;k<nCalls;k++) {
