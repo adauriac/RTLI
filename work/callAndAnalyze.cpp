@@ -223,11 +223,11 @@ int main(int na,char*para[]) {
   // here one plays with the results
   printf("\n# L= %u H= %lf\n",L,H);
   Stat s = anaVect(lesE);
-  printf("# E: <>=%.12lf <||>=%lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  printf("# E: <>=%.12lf <||>=%.12lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   s = anaVect(lesM);
-  printf("# M: <>=%.12lf <||>=%lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  printf("# M: <>=%.12lf <||>=%.12lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   s = anaVect(lesC);
-  printf("# C: <>=%.12lf <||>=%lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  printf("# C: <>=%.12lf <||>=%.12lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   if (outFullDistrib) {
     map<double, int> occurrences;
     for(const double val : lesC)

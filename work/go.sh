@@ -1,5 +1,9 @@
 #!/bin/bash -f
 
+###########################################################
+# L=1024 nCalls=1000000 per=1 H=0.01 takes roughly 30 sec #
+###########################################################
+
 # call4 81920 1e-1 0 10000 >> Resultat
 # call4 81920 1e-2 0 10000 >> Resultat
 # call4 81920 1e-3 0 10000 >> Resultat
@@ -63,7 +67,21 @@
 # { time callAndAnalyze L=4096 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_4096_3" &
 # { time callAndAnalyze L=4096 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_4096_4" &
 
-{ time callAndAnalyze L=8192 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_8192_1" &
-{ time callAndAnalyze L=8192 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_8192_2" &
-{ time callAndAnalyze L=8192 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_8192_3" &
-{ time callAndAnalyze L=8192 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_8192_4" &
+# { time callAndAnalyze L=8192 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_8192_1" &
+# { time callAndAnalyze L=8192 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_8192_2" &
+# { time callAndAnalyze L=8192 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_8192_3" &
+# { time callAndAnalyze L=8192 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_8192_4" &
+
+# 14 octobre 17h
+# for n in 1 2 3 4; do
+#     L=$((1024 + n*128))
+#     echo $L
+#     { time callAndAnalyze L=$L H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_"$L &
+# done
+
+# 14 octobre 17h30
+for n in 5 6 7 ; do
+    L=$((1024 + n*128))
+    echo $L
+    { time callAndAnalyze L=$L H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_"$L &
+done
