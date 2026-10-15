@@ -80,8 +80,11 @@
 # done
 
 # 14 octobre 17h30
-for n in 5 6 7 ; do
-    L=$((1024 + n*128))
-    echo $L
-    { time callAndAnalyze L=$L H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_"$L &
-done
+# for n in 5 6 7 ; do
+#     L=$((1024 + n*128))
+#     echo $L
+#     { time callAndAnalyze L=$L H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 ; } &> "Results_0.01_"$L &
+# done
+
+# jeu. 15 oct. 2026 12:07:43 CEST
+callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=1769153053 verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048 &
