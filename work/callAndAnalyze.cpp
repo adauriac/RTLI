@@ -232,9 +232,9 @@ int main(int na,char*para[]) {
     map<double, int> occurrences;
     for(const double val : lesC)
       ++occurrences[val];
-    printf("# C   nbOccurencesC\n");
+    printf("# C   nbOccurencesC       C*L/2\n");
     for (const auto& [valeur, nombre] : occurrences)
-      printf("%lf %d\n",valeur,nombre);
+      printf("%.12lf %d %.12lf\n",valeur,nombre,valeur*L/2);
   }
   return 0;
 }  // FIN

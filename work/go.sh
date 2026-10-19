@@ -87,4 +87,13 @@
 # done
 
 # jeu. 15 oct. 2026 12:07:43 CEST
-callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=1769153053 verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048 &
+# callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=1769153053 verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_1769153053 &
+
+# lun. 19 oct. 2026 11:26:35 CEST
+# callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=1185603221 verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_1185603221 &
+seed=23524103
+n=1
+callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=$seed verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_$n &
+seed=641702055
+n=2
+callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=$seed verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_$n &
