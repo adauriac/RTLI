@@ -91,9 +91,24 @@
 
 # lun. 19 oct. 2026 11:26:35 CEST
 # callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=1185603221 verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_1185603221 &
-seed=23524103
-n=1
-callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=$seed verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_$n &
-seed=641702055
-n=2
-callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=$seed verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_$n &
+# seed=23524103
+# n=1
+# callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=$seed verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_$n &
+# seed=641702055
+# n=2
+# callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=$seed verbose=0 outFullDistrib=1 > FullDistrib_0.01_2048_$n &
+
+# mer. 21 oct. 2026 10:56:59 CEST
+# for n in 5 6 7 8 ; do
+#     time callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 > "Results_0.01_2048_"$n &
+# done
+
+# mer. 21 oct. 2026 10:56:59 CEST
+# for n in 9 10 11 12 ; do
+#     time callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 > "Results_0.01_2048_"$n &
+# done
+
+# mer. 21 oct. 2026 10:56:59 CEST
+for n in 13 14 15 16 ; do
+    time callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 > "Results_0.01_2048_"$n &
+done

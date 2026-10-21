@@ -132,7 +132,7 @@ int main(int na,char*para[]) {
   _INITQ;
   int verbose = 1;
   unsigned int L = 8;
-  unsigned int seed = 51154;
+  uint64_t seed = 51154;
   unsigned nCalls = 1;
   double H = 10;
   unsigned int per = 1;
@@ -158,7 +158,7 @@ int main(int na,char*para[]) {
 	  // METTRE ICI LES DIFFERNTES VALEURS DE LA LIGNE DE COMMANDE
 	  _QU(verbose,"%d"," (0:only the 3 averages;1: the 3 averages and the J_i and h_i ans spins_i for the first sites)");
 	  _QU(L,"%u"," (Taille chaine)");
-	  _QU(seed,"%u"," (amorceur rnd)");
+	  _QU(seed,"%lu"," (amorceur rnd)");
 	  _QU(nCalls,"%u"," (nombre de samples générés)");
 	  _QU(per,"%u"," (periodic or open BC)");
 	  _QU(H,"%lf"," (distibution des champs = [-H/2,H/2])");
@@ -185,7 +185,7 @@ int main(int na,char*para[]) {
   if (seed==0)
     seed= rd();
   if (1) {
-    printf("# seed= %u\n",seed);
+    printf("# seed= %lu\n",seed);
     _IMPRIM_PARAM(stdout);
   }
   mt19937_64 rng; 
