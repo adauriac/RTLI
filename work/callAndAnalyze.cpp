@@ -191,9 +191,9 @@ int main(int na,char*para[]) {
   mt19937_64 rng; 
   uniform_real_distribution<double> disth(-H*0.5, H*0.5);
   uniform_real_distribution<double> distJ(0, 1.0);
+  rng.seed(seed);
   vector<double> lesE,lesM,lesC;
   for(unsigned int k=0;k<nCalls;k++) {
-    rng.seed(seed);
     if (fileName[0]==0) {
       for (unsigned int i=0;i<L;i++) {
 	hs[i] = disth(rng);
@@ -218,10 +218,9 @@ int main(int na,char*para[]) {
     lesE.push_back(prop.E);
     lesM.push_back(prop.M);
     lesC.push_back(prop.Correl);
-    seed = rng(); // pour le prochain appel
   } // fin loop samples
   // here one plays with the results
-  printf("\n# L= %u H= %lf\n",L,H);
+  printf("\n# L= %u H= %lf nCalls= %u\n",L,H,nCalls);
   Stat s = anaVect(lesE);
   printf("# E: <>=%.12lf <||>=%.12lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   s = anaVect(lesM);

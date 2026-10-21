@@ -109,6 +109,60 @@
 # done
 
 # mer. 21 oct. 2026 10:56:59 CEST
-for n in 13 14 15 16 ; do
-    time callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 > "Results_0.01_2048_"$n &
+# for n in 13 14 15 16 ; do
+#     time callAndAnalyze L=2048 H=0.01 nCalls=25000000 per=1 seed=0 verbose=0 >  "Results_0.01_2048_"$n &
+# done
+
+# mer. 21 oct. 2026 10:56:59 CEST
+# nCalls=25000000
+# for n in 0 1 2 3 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newGeneResults/Results_0.01_2048_"$seed &
+# done
+# echo "waiting"
+# wait
+# echo "ok"
+# for n in 0 1 2 3 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newGeneResults/Results_0.01_2048_"$seed &
+# done
+# echo "waiting"
+# wait 
+# echo "ok"
+# for n in 0 1 2 3 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newGeneResults/Results_0.01_2048_"$seed &
+# done
+# echo "waiting"
+# wait 
+# echo "ok"
+# for n in 0 1 2 3 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newGeneResults/Results_0.01_2048_"$seed &
+# done
+# echo "waiting"
+# wait 
+# echo "ok"
+
+# mer. 21 oct. 2026 21:38:16 CEST
+nCalls=25000000
+for n in 0 1 2 3 ; do
+    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+    callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
 done
+wait
+for n in 0 1 2 3 ; do
+    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+    callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
+done
+wait 
+for n in 0 1 2 3 ; do
+    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+    callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
+done
+wait 
+for n in 0 1 2 3 ; do
+    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+    callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
+done
+wait 
