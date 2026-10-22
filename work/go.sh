@@ -145,24 +145,34 @@
 # echo "ok"
 
 # mer. 21 oct. 2026 21:38:16 CEST
+# nCalls=25000000
+# for n in 0 1 2 3 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
+# done
+# wait
+# for n in 0 1 2 3 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
+# done
+# wait 
+# for n in 0 1 2 3 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
+# done
+# wait 
+# for n in 0 1 2 3 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
+# done
+# wait 
+ 
+# jeu. 22 oct. 2026 11:44:50 CEST
 nCalls=25000000
-for n in 0 1 2 3 ; do
-    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
-    callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
+for k in 1 2 3 4 ; do
+    for n in 0 1 2 3 ; do
+	seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+	callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >  "newNewGeneResults/Results_0.01_2048_"$nCalls"_"$seed &
+    done
+    wait
 done
-wait
-for n in 0 1 2 3 ; do
-    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
-    callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
-done
-wait 
-for n in 0 1 2 3 ; do
-    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
-    callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
-done
-wait 
-for n in 0 1 2 3 ; do
-    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
-    callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 >  "newNewGeneResults/Results_0.01_2048_"$seed &
-done
-wait 

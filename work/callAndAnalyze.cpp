@@ -162,7 +162,7 @@ int main(int na,char*para[]) {
 	  _QU(nCalls,"%u"," (nombre de samples générés)");
 	  _QU(per,"%u"," (periodic or open BC)");
 	  _QU(H,"%lf"," (distibution des champs = [-H/2,H/2])");
-	  _QU(outFullDistrib,"%u"," output ALL sample average correlations");
+	  _QU(outFullDistrib,"%u"," create a file (with an obvious name) with the correlation of every sample");
 	  _QU(outhJforcomparisonwith_byEnum,"%u"," create the file TMPHJ for comparison with byEnum.py for check");
 	  _QUS(fileName,"%s"," (read data in filename, all aother parameters except verbose not considered)");
 	}
@@ -228,13 +228,22 @@ int main(int na,char*para[]) {
   s = anaVect(lesC);
   printf("# C: <>=%.12lf <||>=%.12lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   if (outFullDistrib) {
+    char filename[1024];
+    sprintf(filename,"fullDistrib_%d_%lf_%lu_%u",L,H,seed,nCalls);
+    FILE *ft=fopen(filename,"w");
+    if (ft==NULL)
+      ft=stderr;
     map<double, int> occurrences;
     for(const double val : lesC)
       ++occurrences[val];
-    printf("# C   nbOccurencesC       C*L/2\n");
+    fprintf(ft,"# C   nbOccurencesC       C*L/2\n");
     for (const auto& [valeur, nombre] : occurrences)
-      printf("%.12lf %d %.12lf\n",valeur,nombre,valeur*L/2);
+      fprintf(ft,"%.12lf %d\n",valeur,nombre);
+    if (ft!=stderr) {
+      printf("# %s closed\n",filename);
+      fclose(ft);
+    }
   }
   return 0;
-}  // FIN
+}  // FIN int main(int na,char*para[]) {
 // *******************************************************************
