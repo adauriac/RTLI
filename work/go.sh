@@ -168,11 +168,63 @@
 # wait 
  
 # jeu. 22 oct. 2026 11:44:50 CEST
-nCalls=25000000
-for k in 1 2 3 4 ; do
-    for n in 0 1 2 3 ; do
-	seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
-	callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >  "newNewGeneResults/Results_0.01_2048_"$nCalls"_"$seed &
-    done
-    wait
+# nCalls=25000000
+# for k in 1 2 3 4 ; do
+#     for n in 0 1 2 3 ; do
+# 	seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+# 	callAndAnalyze L=2048 H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >  "newNewGeneResults/Results_0.01_2048_"$nCalls"_"$seed &
+#     done
+#     wait
+# done
+
+# mer. 28 oct. 2026 21:55:48 CET
+
+# nCalls=100000000
+# for L in 16 32 64 128 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=$L H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 outFu# llDistrib=1 >  "newNewGeneResults/Results_0.01_"$L"_"$nCalls"_"$seed 
+# done
+
+# L=256
+# seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+# callAndAnalyze L=$L H=0.01 nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >   "newNewGeneResults/Results_0.01_"$L"_"$nCalls"_"$seed 
+# done
+
+# mar. 03 nov. 2026 13:00:01 CET
+# H=0.1
+# nCalls=100000000
+# for L in 16 32 64 128  ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >   "./Results_"$H"_"$L"_"$nCalls"_"$seed &
+# done
+# wait
+# echo "1er fini"
+# for L in 192 256 384 512 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >   "./Results_"$H"_"$L"_"$nCalls"_"$seed &
+# done
+# wait
+# echo "2ieme fini"
+# for L in 768 1024 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >   "./Results_"$H"_"$L"_"$nCalls"_"$seed &
+# done
+# wait
+# echo "tout fini"
+
+# mar. 03 nov. 2026 16:07:34 CET
+# H=0.1
+# nCalls=100000000
+# for L in 256 192  ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >   "./Results_"$H"_# "$L"_"$nCalls"_"$seed &
+#     wait
+# done
+
+# sam. 07 nov 2026 18:54:25 CET
+H=0.15
+nCalls=100000000
+for L in 16 32 64 128 192 256 384 512 768 1024 ; do
+    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+    callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 >   "./Results_"$H"_"$L"_"$nCalls"_"$seed
 done

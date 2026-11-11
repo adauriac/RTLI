@@ -29,7 +29,7 @@ struct Stat {
 
 Stat anaVect(vector<double>&V);
 void analyse(const Result &res,Properties &prop) ;
-void out(const vector<double>& h,const vector<double>& J,const Result &res);
+void out(const vector<double>& h,const vector<double>& J,const Result &res,FILE *ft);
 void readFromFile(char*fileName,vector<double>&hs,vector<double>&Js);
 
 Stat anaVect(vector<double>&V){
@@ -77,23 +77,23 @@ void readFromFile(char*fileName,vector<double>&hs,vector<double>&Js) {
 } // FIN void readFromFile(char*fileName,vector<double>&hs,vector<double>&Js)
 // *********************************************************************
 
-void out(const vector<double>& h,const vector<double>& J,const Result &res){
+void out(const vector<double>& h,const vector<double>& J,const Result &res,FILE *ft=stdout){
   unsigned int L=h.size();
   unsigned int l = ( L>=16 ? 16 : L);
   const char *end= (L!=l) ? " ...\n" : "\n";
-  printf("E0= %lf\n",res.E0/L);
-  printf("h: ");
+  fprintf(ft,"E0= %lf\n",res.E0/L);
+  fprintf(ft,"h: ");
   for (uint i=0;i<l;i++)
-    printf("%lf ",h[i]);
-  printf("%s",end);
-  printf("J: ");
+    fprintf(ft,"%lf ",h[i]);
+  fprintf(ft,"%s",end);
+  fprintf(ft,"J: ");
   for (uint i=0;i<l;i++)
-    printf("%lf ",J[i]);
-  printf("%s",end);
-  printf("spin s: ");
+    fprintf(ft,"%lf ",J[i]);
+  fprintf(ft,"%s",end);
+  fprintf(ft,"spin s: ");
   for (uint i=0;i<l;i++)
-    printf("%c",res.spins[i]==1 ? '+' : '-');
-  printf("%s",end);
+    fprintf(ft,"%c",res.spins[i]==1 ? '+' : '-');
+  fprintf(ft,"%s",end);
 }  // FIN void out( vector<double>& h, vector<double>& J, Result &res){
 // ****************************************************************
 
@@ -130,13 +130,14 @@ void helper() {
 // *********************************************************************
 int main(int na,char*para[]) {
   _INITQ;
-  int verbose = 1;
+  int verbose = 0;
   unsigned int L = 8;
   uint64_t seed = 51154;
   unsigned nCalls = 1;
   double H = 10;
   unsigned int per = 1;
   char fileName[256] = "";
+  char fileNameRes[256] = "";
   unsigned int outFullDistrib = 0;
   unsigned int outhJforcomparisonwith_byEnum=0;
   for (int i=1;i<=na;i++)
@@ -165,6 +166,7 @@ int main(int na,char*para[]) {
 	  _QU(outFullDistrib,"%u"," create a file (with an obvious name) with the correlation of every sample");
 	  _QU(outhJforcomparisonwith_byEnum,"%u"," create the file TMPHJ for comparison with byEnum.py for check");
 	  _QUS(fileName,"%s"," (read data in filename, all aother parameters except verbose not considered)");
+	  _QUS(fileNameRes,"%s"," if not set an absolute canonical name is used, stdout is possible");
 	}
       if (!ok) 
 	{
@@ -184,10 +186,17 @@ int main(int na,char*para[]) {
   random_device rd;
   if (seed==0)
     seed= rd();
-  if (1) {
-    printf("# seed= %lu\n",seed);
-    _IMPRIM_PARAM(stdout);
+  if (fileNameRes[0]==0) {// no name provided use canonical
+    sprintf(fileNameRes,"/home/dauriac/WORK/RTLI/results/FullResults_%.4lf_%u_%u_%lu",H,L,nCalls,seed);
   }
+  FILE *fou = fopen(fileNameRes,"w");
+  if (fou==NULL) {
+    printf("Could not open %s\n",fileNameRes);
+    exit(1);
+  }
+  fprintf(fou,"# seed= %lu\n",seed);
+    _IMPRIM_PARAM(fou);
+  
   mt19937_64 rng; 
   uniform_real_distribution<double> disth(-H*0.5, H*0.5);
   uniform_real_distribution<double> distJ(0, 1.0);
@@ -220,30 +229,23 @@ int main(int na,char*para[]) {
     lesC.push_back(prop.Correl);
   } // fin loop samples
   // here one plays with the results
-  printf("\n# L= %u H= %lf nCalls= %u\n",L,H,nCalls);
-  Stat s = anaVect(lesE);
-  printf("# E: <>=%.12lf <||>=%.12lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
-  s = anaVect(lesM);
-  printf("# M: <>=%.12lf <||>=%.12lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
-  s = anaVect(lesC);
-  printf("# C: <>=%.12lf <||>=%.12lf <**2>=%.12lf min=%lf max=%lf nb=%d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
   if (outFullDistrib) {
-    char filename[1024];
-    sprintf(filename,"fullDistrib_%d_%lf_%lu_%u",L,H,seed,nCalls);
-    FILE *ft=fopen(filename,"w");
-    if (ft==NULL)
-      ft=stderr;
     map<double, int> occurrences;
     for(const double val : lesC)
       ++occurrences[val];
-    fprintf(ft,"# C   nbOccurencesC       C*L/2\n");
+    fprintf(fou,"# C   nbOccurencesC\n");
     for (const auto& [valeur, nombre] : occurrences)
-      fprintf(ft,"%.12lf %d\n",valeur,nombre);
-    if (ft!=stderr) {
-      printf("# %s closed\n",filename);
-      fclose(ft);
-    }
+      fprintf(fou,"%.12lf %d\n",valeur,nombre);
   }
+  fprintf(fou,"# L= %u H= %lf nCalls= %u\n",L,H,nCalls);
+  Stat s = anaVect(lesE);
+  fprintf(fou,"# E: <>= %.12lf <||>= %.12lf <**2>= %.12lf min= %lf max= %lf nb= %d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  s = anaVect(lesM);
+  fprintf(fou,"# M: <>= %.12lf <||>= %.12lf <**2>= %.12lf min= %lf max= %lf nb= %d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  s = anaVect(lesC);
+  fprintf(fou,"# C: <>= %.12lf <||>= %.12lf <**2>= %.12lf min= %lf max= %lf nb= %d\n",s.moy , s.moydeabs, s.moydecarre, s.mi, s.ma, s.size);
+  fclose(fou);
+  printf("%s closed\n",fileNameRes);
   return 0;
 }  // FIN int main(int na,char*para[]) {
 // *******************************************************************
