@@ -6,8 +6,8 @@
 #include <random>
 
 using namespace std;
-#include <macros.h>
-#include <jc.h>
+#include "macros.h"
+#include "jc.h"
 #define _COMMENTS "RFIM 1d\n"
 
 #include "RFIM1d.h"
