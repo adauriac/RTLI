@@ -261,3 +261,4 @@ for H in 0.0375 0.025 ; do
 	seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
 	callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 
     done
+done
