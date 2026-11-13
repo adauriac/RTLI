@@ -230,9 +230,34 @@
 # done
 
 # mer. 11 nov. 2026 11:54:11 CET
-H=0.075
+# H=0.075
+# nCalls=100000000
+# for L in 16 32 64 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 
+# done
+
+# mer. 11 nov. 2026 20:47:51 CET
+# H=0.075
+# nCalls=100000000
+# for L in   128 192 256 384 512 768 1024 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 
+# done
+
+# mer. 11 nov. 2026 20:50:54 CET
+# H=0.05
+# nCalls=100000000
+# for L in 16 32 64 128 192 256 384 512 768 1024 ; do
+#     seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+#     callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 
+# done
+
+# ven. 13 nov. 2026 18:47:35 CET
+
 nCalls=100000000
-for L in 16 32 64 ; do
-    seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
-    callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 
-done
+for H in 0.0375 0.025 ; do
+    for L in 16 32 64 128 192 256 384 512 768 1024 ; do
+	seed=$(od -An -N8 -tu8 /dev/urandom | tr -d ' ')
+	callAndAnalyze L=$L H=$H nCalls=$nCalls per=1 seed=$seed verbose=0 outFullDistrib=1 
+    done
